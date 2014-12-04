@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="en-US">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6,12 +6,9 @@
 		<link rel="stylesheet" href="css/style.css" type="text/css">
 		<script type="text/javascript" src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
 
-		
-		<script type="text/javascript" src="utils/date.format.js"></script>
-		<script type="text/javascript" src="utils/logger.js"></script>
-		<script type="text/javascript" src="utils/errorHandler.js"></script> 
-
-		<script type="text/javascript" src="juego.js"></script>
+		<script type="text/javascript" src="date.format.js"></script>
+		<script type="text/javascript" src="logger.js"></script>
+		<script type="text/javascript" src="miJuego.js"></script>
 
 
 
@@ -23,10 +20,10 @@
 		<div>
 			<input type="button" id="btnConectar" value="Conectar al servidor">
 			<input type="button" id="btnIniciar" value="INICIAR!" disabled>
-			<input type="text" value="127.0.0.1" id="serverAddress" placeholder="ip servidor...">
-			<input type="text" value="8080" id="serverPort" placeholder="puerto"><br/><br/>
+			<input type="text" value="127.0.0.1" id="serverAddress">
 			<input type="text" value="baburro" id="username" placeholder="username...">
 			<input type="password" value="123456" id="password" placeholder="password...">
+			<input type="text" value="8080" id="serverPort"><br/><br/>
 		
 
 			<div id="juego" class="juego">

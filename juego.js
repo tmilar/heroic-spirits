@@ -73,8 +73,6 @@ var messageHandler = (function(){
 })();
 
 
-errorHandler.error("errorcito");
-
 var cache = (function(){
 
 	var items = [];
@@ -147,11 +145,11 @@ var gui = {
 			this.agregarCartaManoJugador(cartas[i]);
 		};
 
-		$("cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+		$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
 	},
 
 	inicializar: function  (cartasRestantesMazo) {
-		$("cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+		$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
 	}
  }
 var ui = {
@@ -175,7 +173,7 @@ var ui = {
 								}
 		var that = this;
 
-		logger.log("Intentando conexion... "+datosLoginJugador);
+		logger.log("Intentando conexion... "+ JSON.stringify(datosLoginJugador));
 		this.servidor = new WebSocket('ws://' + ipServidor + ':' + puerto);
 
 		this.servidor.onopen = function(event) {
@@ -258,19 +256,20 @@ var eventHandler = function(){
 		ui.iniciarJuego();
 	}
 	var onClickConectar= function(){
-		logger.log("Agregado el evento de conexion al boton.");
+		logger.log("Hice clic en el boton conectar.");
 		ui.conectarServidor();
 	}
 
-	logger.log("hola1");
 	$(document).ready(function() {
-		$("btnBajarCarta").click(this.onBajarCarta);
-		logger.log("cargando eventos..!!!!!");
+
+		$("#btnBajarCarta").click(onBajarCarta);
 		//$("btnAtacar").click(onDeclararAtaque)
-		$(".carta").click(this.onClickCarta);
-		$("btnConectar").click(this.onClickConectar);
-		$("btnIniciar").click(this.onClickIniciar);
-		$("btnRobarCarta").click(this.onClickRobarCarta);
+		$(".carta").click(onClickCarta);
+		$("#btnConectar").click(onClickConectar);
+
+		$("#btnIniciar").click(onClickIniciar);
+		$("#btnRobarCarta").click(onClickRobarCarta);
+		logger.log("Eventos cargados.");
 	});
 
 
