@@ -1,0 +1,13 @@
+.carta{
+	width: 60px;
+	height: 90px;
+	float: left;
+	margin: 5px;
+}
+
+
+.carta-seleccionada {
+	border-width: 5px;
+	border-style: solid;
+	border-color: blue;
+}
