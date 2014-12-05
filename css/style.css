@@ -5,6 +5,22 @@
 	margin: 5px;
 }
 
+.carta-oponente {
+	width: 60px;
+	height: 90px;
+	float: left;
+	margin: 5px;
+}
+
+.carta-boca-abajo {
+	width: 60px;
+	height: 90px;
+	float: left;
+	margin: 5px;
+	background-image: url("http://cdn.bulbagarden.net/upload/thumb/1/17/Cardback.jpg/150px-Cardback.jpg");
+
+}
+
 
 .carta-seleccionada {
 	border-width: 5px;

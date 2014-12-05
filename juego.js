@@ -3,7 +3,7 @@ var currentSession = null;
 
 var messageFactory = {
 
-	msjIniciar: function(){
+	msjIniciarJuego: function(){
 		return JSON.stringify({
 					operacion: "iniciarJuego",
 					session: currentSession
@@ -44,19 +44,26 @@ var messageHandler = (function(){
 					gui.robarCartas(msj.cartas, msj.cartasRestantesMazo);
 
 					break;
+				case "mesaLlena":
+					logger.log("Se lleno la mesa, el juego ya puede ser empezado.");
+					gui.habilitarBotonInicio();
+					break;
+
 				case "iniciarJuego":
-					logger.log("El servidor nos dio luz verde para empezar!");
+					logger.log("Empezo el juego!");
 					//gui.inicializar();
 
 					break;
 				case "respuestaConexion":
 					if(!msj.session){
 						errorHandler.error("El SV no autorizo la conexion. Motivo: '"+msj.mensaje+"'.");
+						ui.desconectarServidor();
 						return;
 					}
 					currentSession = msj.session;
-					logger.log("Sesion iniciada correctamente! "+ currentSession.toString());
-					
+					logger.log("Sesion iniciada correctamente! "+ "[Username: " +currentSession.username +", session_id: "+currentSession._id+"].");
+					break;
+
 				case "bajarCarta":
 					if(!msj.autorizado){
 						errorHandler.error("El sv no me dejo bajar la carta.");
@@ -80,9 +87,9 @@ var cache = (function(){
 		add: function(item){
 			items.push(item);
 		},
-		addMany: function(items){
-			for (var i = 0; i < items.length; i++) {
-				items.push(items[i]);
+		addMany: function(items_add){
+			for (var i = 0; i < items_add.length; i++) {
+				items.push(items_add[i]);
 			};
 		},
 		getItemById: function(item_id){
@@ -150,6 +157,10 @@ var gui = {
 
 	inicializar: function  (cartasRestantesMazo) {
 		$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+	},
+	
+	habilitarBotonInicio: function(){
+		$("#btnIniciar").removeAttr("disabled");
 	}
  }
 var ui = {
@@ -168,7 +179,6 @@ var ui = {
 		var puerto = $("#serverPort").val();
 
 		var datosLoginJugador = {username: $("#username").val(),
-								 ip: "123.123.123.123.123",
 								 password: $("#password").val()
 								}
 		var that = this;
@@ -216,11 +226,16 @@ var ui = {
 
 	iniciarJuego: function(){
 
-		this.servidor.send(messageFactory.iniciarJuego());
+		this.servidor.send(messageFactory.msjIniciarJuego());
 	},
 
 	cartaClick:function(datosCarta){
 		//mostrar en pantalla datos de la carta seleccionada....
+	},
+
+	desconectarServidor: function(){
+		logger.log("Conexion con el servidor cerrada.");
+		this.servidor.close();
 	}
 }
 
@@ -241,8 +256,8 @@ var eventHandler = function(){
 		ui.declararAtaque($(""))
 	}*/
 
-	var onClickCarta = function(){		
-
+	var onClickCarta = function(event){		
+		logger.log("hice clic en una carta" + JSON.stringify(event.data));
 
 		$(".carta").removeClass("carta-seleccionada");
 		$(this).addClass("carta-seleccionada");
@@ -253,6 +268,7 @@ var eventHandler = function(){
 	}
 
 	var onClickIniciar = function(){
+		$(this).attr("disabled", "disabled");
 		ui.iniciarJuego();
 	}
 	var onClickConectar= function(){
@@ -264,8 +280,10 @@ var eventHandler = function(){
 
 		$("#btnBajarCarta").click(onBajarCarta);
 		//$("btnAtacar").click(onDeclararAtaque)
-		$(".carta").click(onClickCarta);
+		//$(".carta").click(onClickCarta);
+		$(document).on("click",".carta", onClickCarta);
 		$("#btnConectar").click(onClickConectar);
+
 
 		$("#btnIniciar").click(onClickIniciar);
 		$("#btnRobarCarta").click(onClickRobarCarta);
