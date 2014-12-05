@@ -1,13 +1,13 @@
 var serverWs = require('websocket').server.listen(8080);
-var dateFormat = require('date.format.js');
-var Session = require('session');
-var errorHandler = require('errorHandler');
-var logger = require('logger');
-var messageFactory = require('messageFactory');
+var dateFormat = require('./date.format.js');
+var Session = require('./session');
+var errorHandler = require('./errorHandler');
+var logger = require('./logger');
+var messageFactory = require('./messageFactory');
 
 
-var Mazo = require('mazo');
-var Jugador = require('jugador');
+var Mazo = require('./mazo');
+var Jugador = require('./jugador');
 
 
 var jugadoresRepository = {

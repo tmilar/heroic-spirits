@@ -31,9 +31,9 @@ var Mazo1 = function(){
 }
 
 
-var Mazo = require('mazo');
+var Mazo = require('./mazo');
 
-var Logger = require('logger');
+var Logger = require('./logger');
 
 mazo = new Mazo();
 Logger.log("Hola que tal!");
