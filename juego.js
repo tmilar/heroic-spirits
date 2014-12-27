@@ -35,19 +35,31 @@ var messageHandler = (function(){
 		procesar: function(msj){
 			if(!msj.operacion){
 				errorHandler.error("Hubo un error, llego un msj extraño: \n"+msj);
+				return;
 			}
 
+			gui.procesarMsj(msj);
+
 			switch(msj.operacion){
+
+				//TODO Delegar a la gui
 				case "robarCartas":
-					logger.log("El servidor nos dejo robar "+msj.cartas.length+" cartas");
-					
-					gui.robarCartas(msj.cartas, msj.cartasRestantesMazo);
+					if(msj.cartasJugador){
+						logger.log("Nuevas cartas: "+JSON.stringify(msj.cartas));
+
+						logger.log("El servidor nos dejo robar "+msj.cartas.length+" cartas");
+						gui.robarCartas(msj.cartas, msj.cartasRestantesMazo, "jugador");
+					}else{
+						logger.log("Nuevas cartas oponente: "+JSON.stringify(msj.cartas));
+						logger.log("El oponente robo" +msj.cartas.length+" cartas");
+						gui.robarCartas(msj.cartas, msj.cartasRestantesMazo, "oponente");
+					}
 
 					break;
-				case "mesaLlena":
-					logger.log("Se lleno la mesa, el juego ya puede ser empezado.");
-					gui.habilitarBotonInicio();
-					break;
+				//case "mesaLlena":
+				//	logger.log("Se lleno la mesa, el juego ya puede ser empezado.");
+				//	gui.habilitarBotonInicio();
+				//	break;
 
 				case "iniciarJuego":
 					logger.log("Empezo el juego!");
@@ -60,10 +72,12 @@ var messageHandler = (function(){
 						ui.desconectarServidor();
 						return;
 					}
+					gui.mostrarUsername(msj.session.username);
 					currentSession = msj.session;
 					logger.log("Sesion iniciada correctamente! "+ "[Username: " +currentSession.username +", session_id: "+currentSession._id+"].");
 					break;
 
+				//TODO Delegar a la gui
 				case "bajarCarta":
 					if(!msj.autorizado){
 						errorHandler.error("El sv no me dejo bajar la carta.");
@@ -72,8 +86,7 @@ var messageHandler = (function(){
 
 					gui.bajarCarta(cartaSeleccionada);
 					break;
-				default: 
-					errorHandler.error("Llego un msj equivocado: '"+msj.operacion+"'.");
+
 			}
 		}
 	}
@@ -86,10 +99,13 @@ var cache = (function(){
 	return{
 		add: function(item){
 			items.push(item);
+			logger.log("Agregue a la cache: "+JSON.stringify(item));
 		},
 		addMany: function(items_add){
+			logger.log("Agregando a la cache: "+JSON.stringify(items_add));
+
 			for (var i = 0; i < items_add.length; i++) {
-				items.push(items_add[i]);
+				this.add(items_add[i]); 
 			};
 		},
 		getItemById: function(item_id){
@@ -114,30 +130,62 @@ var cache = (function(){
 	}
 })();
 
+var IMG_CARTA_FONDO = "http://4.bp.blogspot.com/_yJpgVtS93ho/TE7sRpxpueI/AAAAAAAAAZk/P9F0VNvtL5Y/s1600/card_back_arreglat.png";
+var IMG_CARTA_MANO = "http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png";
+var IMG_CARTA_MESA_J1 = "http://4.bp.blogspot.com/-9pweicITRx8/TabnxKINofI/AAAAAAAAB-c/ljIgZf_LwGU/s1600/signo+de+exclamacion.png";
+var IMG_CARTA_MESA_J2 = "http://us.cdn4.123rf.com/168nwm/niyazz/niyazz1310/niyazz131000021/22620410-simbolo-de-exclamacion-en-el-fuego-sobre-fondo-negro.jpg";
+
 var gui = {
 
+	procesarMsj: function (msj) {
+		estadoGuiHandler.procesarMsj(msj);
+	},
+
 	borrarCartaSeleccionada: function(carta){
-		$(".carta").find("[data-idCarta='" + carta._id + "']");
+		$(".carta").find("[data-idCarta='" + carta._id + "']").remove();
+		//errorHandler.error("intento borrar carta id: "+carta._id+", pero aun no implemente el borrado!");
 	},
 
 	agregarCartaManoJugador: function(carta){
-		var imgSrc = 'http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png';
+		var imgSrc = IMG_CARTA_MANO;
 
 		//TODO var imgSrc = carta.imgSrc;
 		$('#manoJugador ul').append(
 		    $('<li>').append(
-		    	$('<div>').attr({"data-idCarta": carta._id}).append(
-		        	$('<img>').attr('src',imgSrc)
-				        	.addClass("carta"))));
+		    	$('<div>').attr({"data-idCarta": carta._id}).addClass("contenedor-carta").append(
+		        	$('<img>').attr('src',imgSrc).addClass("carta")
+				        	)));
 	},
 
+	agregarCartaManoOponente: function(carta){		
+		var imgSrc = IMG_CARTA_FONDO;
+
+		//TODO var imgSrc = carta.imgSrc;
+		$('#manoJugador ul').append(
+		    $('<li>').append(
+		    	$('<div>').attr({"data-idCarta": carta._id}).addClass("contenedor-carta").append(
+		        	$('<img>').attr('src',imgSrc).addClass("carta")
+				        	)));
+
+	},
 	agregarCartaMesaJugador: function(carta){		
-		var imgSrc = 'http://4.bp.blogspot.com/-9pweicITRx8/TabnxKINofI/AAAAAAAAB-c/ljIgZf_LwGU/s1600/signo+de+exclamacion.png';
+		var imgSrc = IMG_CARTA_MESA_J1;
 
 		$('#mesaJugador ul').append(
 		    $('<li>').append(
-		    	$('<div>').attr("data-idCarta", carta._id).append(
-		        	$('<img>').attr('src',imgSrc).addClass("carta"))));
+		    	$('<div>').attr("data-idCarta", carta._id).addClass("contenedor-carta").append(
+		        	$('<img>').attr('src',imgSrc).addClass("carta")
+		        			)));
+	},
+
+	agregarCartaMesaOponente: function (carta) {
+		var imgSrc = IMG_CARTA_MESA_J2;
+
+		$('#mesaOponente ul').append(
+		    $('<li>').append(
+		    	$('<div>').attr("data-idCarta", carta._id).addClass("contenedor-carta").append(
+		        	$('<img>').attr('src',imgSrc).addClass("carta")
+		        		)));
 	},
 
 	bajarCarta: function(carta){
@@ -145,23 +193,89 @@ var gui = {
 		this.agregarCartaMesaJugador(carta);
 	},
 
-	robarCartas: function (cartas, cartasRestantesMazo) {
+	bajarCartaOponente: function (carta){
+		this.borrarCartaSeleccionada(carta);		
+		this.agregarCartaMesaOponente(carta);
+	},
+
+	robarCartas: function (cartas, cartasRestantesMazo, jugador) {
+
+		//TODO BORRAR ESTO porque es solo para el JUGADOR
+
 		cache.addMany(cartas);
+		
+		if(jugador == "jugador"){
+			cache.addMany(cartas);
 
-		for (var i = cartas.length - 1; i >= 0; i--) {
-			this.agregarCartaManoJugador(cartas[i]);
-		};
+			for (var i = cartas.length - 1; i >= 0; i--) {
+				this.agregarCartaManoJugador(cartas[i]);
+			};
+			$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+		}
 
-		$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+		if(jugador == "oponente"){			
+			for (var i = cartas.length - 1; i >= 0; i--) {
+				this.agregarCartaManoOponente(cartas[i]);
+			};
+			$("#cartasRestantesMazoOponente").text("Cartas \nmazo: "+cartasRestantesMazo);
+		}
 	},
 
-	inicializar: function  (cartasRestantesMazo) {
-		$("#cartasRestantesMazo").text("Cartas \nmazo: "+cartasRestantesMazo);
+	inicializar: function  () {
+		estadoGuiHandler.inicializar();
 	},
-	
-	habilitarBotonInicio: function(){
-		$("#btnIniciar").removeAttr("disabled");
+
+	habilitarBotonInicio: function(habilitado){
+		if(habilitado){
+			$("#btnIniciar").removeAttr("disabled");
+		}else{			
+			$("#btnIniciar").attr("disabled", "disabled");
+		}
+	},
+
+	mostrarBotonInicio: function (mostrar) {	
+		if(mostrar)
+			$("#btnIniciar").show();
+		else
+			$("#btnIniciar").hide();
+	},
+
+	habilitarJugadas: function(habilitado){
+		if(habilitado){
+			logger.log("Se habilitaron las jugadas! Baje cartas arrastrando o active efectos seleccionandolas.");
+		}else{
+			logger.log("Jugadas deshabilitadas.");
+		}
+	},
+
+	mostrarInputsConexion: function(mostrar){
+		if(mostrar){
+			$(".conexion").show();
+		}else{
+			$(".conexion").hide();
+		}
+	},
+
+	habilitarBotonConexion: function (habilitado) {
+		if(habilitado){
+			$("#btnConectar").removeAttr("disabled");
+		}else{			
+			$("#btnConectar").attr("disabled", "disabled");
+		}	
+	},
+
+	mostrarUsername: function (username) {
+		$("#datosJugador").removeAttr("hidden");
+		$("#username1").text(username);
+	},
+
+	mostrarJuego: function (mostrar)  {
+		if(mostrar)
+			$("#juego").show();
+		else	
+			$("#juego").hide();
 	}
+	
  }
 var ui = {
 
@@ -205,32 +319,28 @@ var ui = {
 
 			$("#btnConectar").removeAttr("disabled");
 			logger.log("Conexion perdida!");
-			$("#log").prepend("<p>Conexion perdida!</p>");
 		};
 
 	},
 
 	bajarCarta: function(){
 		//TODO:  q el servidor valide que la carta este posta en la mano del jugador.
-		if(!cartaSeleccionada || cartaSeleccionada.closest())
-		if(cartaSeleccionada != null) {
-			this.servidor.send(messageFactory.bajarCarta(cartaSeleccionada));
-		}else{
-			errorHandler.error("No selecciono ninguna carta!");
-		} 
+		//if(!cartaSeleccionada || cartaSeleccionada.closest())
+			if(cartaSeleccionada != null) {
+				this.servidor.send(messageFactory.bajarCarta(cartaSeleccionada));
+			}else{
+				errorHandler.error("No selecciono ninguna carta!");
+			} 
 	},
 
 	seleccionarCarta: function(datosCarta){
 		this.cartaSeleccionada = cache.getItemById(datosCarta._id);
+		logger.log("(Id: "+datosCarta._id +") Info carta seleccionada: "+ JSON.stringify(this.cartaSeleccionada));
 	},
 
 	iniciarJuego: function(){
 
 		this.servidor.send(messageFactory.msjIniciarJuego());
-	},
-
-	cartaClick:function(datosCarta){
-		//mostrar en pantalla datos de la carta seleccionada....
 	},
 
 	desconectarServidor: function(){
@@ -257,14 +367,17 @@ var eventHandler = function(){
 	}*/
 
 	var onClickCarta = function(event){		
-		logger.log("hice clic en una carta" + JSON.stringify(event.data));
+		var cartaSeleccionada = $(this).closest(".contenedor-carta");
+		logger.log("hice clic en una carta id: " +  cartaSeleccionada.attr("data-idcarta") + ".");
 
 		$(".carta").removeClass("carta-seleccionada");
+		//$(this).addClass("carta-seleccionada");
 		$(this).addClass("carta-seleccionada");
+		
 		datosCarta = {//nroJugador: $(this).attr("data-nroJugador"),
-					  _id: $(this).attr("data-idCarta"),
+					  _id: cartaSeleccionada.attr("data-idcarta"),
 					}
-		ui.cartaClick(datosCarta);
+		ui.seleccionarCarta(datosCarta);
 	}
 
 	var onClickIniciar = function(){
@@ -288,6 +401,8 @@ var eventHandler = function(){
 		$("#btnIniciar").click(onClickIniciar);
 		$("#btnRobarCarta").click(onClickRobarCarta);
 		logger.log("Eventos cargados.");
+
+		gui.inicializar();
 	});
 
 
