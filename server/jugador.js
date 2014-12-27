@@ -23,7 +23,7 @@ var Jugador = function() {
 			}
 
 			this.session = new Session(loginData, client);
-			this.mazo = new Mazo(); //obtener de BD.
+			this.mazo = Mazo.generar(25);//new Mazo(); //obtener de BD.
 
 			return this.session; 
 		},
@@ -31,13 +31,6 @@ var Jugador = function() {
 		send: function(msj){
 			this.session.send(msj);
 		},
-		
-		/*
-		robarCarta: function(){
-			var cartas = mazo.robar(1);
-			this.mano.push(cartas[0]);
-			this.send(messageFactory.msjRobarCartas(cartas));
-		},*/
 
 		robarCartas: function(cantidadCartas){
 
