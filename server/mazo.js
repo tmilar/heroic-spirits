@@ -70,6 +70,7 @@ var Mazo = function(dataMazoCartasJugador){
 
 //module.exports = Carta;
 module.exports = Mazo;
+module.exports.generar = generadorMazo.generar;
 //module.exports = generadorMazo;
 
 var logger = require('./logger');
@@ -89,6 +90,6 @@ var TEST_MAZO = {
 	}
 }	
 
-//TEST_MAZO.testCartas();
-//TEST_MAZO.testGenerarMazo();
+TEST_MAZO.testCartas();
+TEST_MAZO.testGenerarMazo();
 
