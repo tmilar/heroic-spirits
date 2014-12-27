@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="utils/date.format.js"></script>
 		<script type="text/javascript" src="utils/logger.js"></script>
 		<script type="text/javascript" src="utils/errorHandler.js"></script> 
-
+		<script type="text/javascript" src="estadoGuiHandler.js"></script>
 		<script type="text/javascript" src="juego.js"></script>
 
 
@@ -21,15 +21,15 @@
 	<body>
 
 		<div>
-			<input type="button" id="btnConectar" value="Conectar al servidor">
-			<input type="button" id="btnIniciar" value="INICIAR!" disabled>
-			<input type="text" value="127.0.0.1" id="serverAddress" placeholder="ip servidor...">
-			<input type="text" value="8080" id="serverPort" placeholder="puerto"><br/><br/>
-			<input type="text" value="baburro" id="username" placeholder="username...">
-			<input type="password" value="123456" id="password" placeholder="password...">
+			<input type="button" id="btnConectar" class="conexion" value="Conectar al servidor">
+			<input type="button" id="btnIniciar" value="INICIAR!" disabled hidden>
+			<input type="text" value="127.0.0.1" class="conexion" id="serverAddress" placeholder="ip servidor...">
+			<input type="text" value="8080" id="serverPort" class="conexion" placeholder="puerto"><br/><br/>
+			<input type="text" value="" id="username" class="conexion" placeholder="username...">
+			<input type="password" value="123456" id="password" class="conexion" placeholder="password...">
 		
 
-			<div id="juego" class="juego">
+			<div id="juego" class="juego" hidden>
 				<div id="manoOponente" class="manoOponente">
 					<h4>Mano del oponente:</h4>
 					<ul > 
@@ -58,32 +58,19 @@
 						<li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li>
 					</ul>
 				</div>
-				<div id="mazo">
+				<div id="mazoJugador">Mazo Jugador:
+					<span id="cartasRestantesMazo">???</span>
+				</div>
+
+				<div id="mazoOponente">Mazo oponente:
 					<span id="cartasRestantesMazo">???</span>
 				</div>
 			</div>
 
 
 
-
-			<div id= "datosJugador">Eres el jugador Nro:<span id="jugador"></span></div>
-			<div id="juego" style="display:none;">
-				<div>Pregunta:<span id="lastPregunta"></span></div>
-				<div id="respondeOtro">Esperando la respuesta de:<span id="lastAnswerer"></span>
-					<div id="opcionesOtro"></div>
-				</div>
-				<div id="respondoYo" style="display:none;">
-					<input type="button" id="btnR0" value=""><br/>
-					<input type="button" id="btnR1" value=""><br/>
-					<input type="button" id="btnR2" value=""><br/>
-				</div>
-
-				<div id="puntajes"></div>
-			</div>
-
-			<h3>Log:</h3>
-			<div id="log"></div>
-
+			<div id= "datosJugador" hidden>Jugador: <span id="username1"></span></div>
+		
 
 		</div>
 	</body>
