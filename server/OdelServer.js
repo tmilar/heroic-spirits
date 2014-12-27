@@ -10,6 +10,7 @@ var Mazo = require('./mazo');
 var Jugador = require('./jugador');
 
 
+
 var jugadoresRepository = {
 
     jugadores: [],
@@ -261,16 +262,24 @@ serverWs.onconnection = function(client) {
     };
 
     client.onerror = function(event) {
-        logger.log("Se desconecto un cliente por un error, sesion: " + this.getWss().session.toString());
-
-        juego.desconectarJugador(this.getWss().session);
+        var sessionCliente;
+        if( sessionCliente = this.getWss().session) {
+            logger.log("Se desconecto un cliente por un error, sesion: " + sessionCliente.toString());
+            juego.desconectarJugador(sessionCliente);
+        }
+        else
+            logger.log("Se desconecto por error, un cliente no identificado.");
 
     };
 
     client.onclose = function(event) {
-        logger.log("Un cliente cerro la conexion, sesion: " + this.getWss().session.toString());
-        juego.desconectarJugador(this.getWss().session);
-
+        var sessionCliente;
+        if( sessionCliente = this.getWss().session) {
+            logger.log("Un cliente cerro la conexion, sesion: " + sessionCliente.toString());
+            juego.desconectarJugador(sessionCliente);
+        }
+        else
+            logger.log("Un cliente no identificado cerro la conexion.");
     };
 };
 
