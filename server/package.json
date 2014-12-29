@@ -1,0 +1,17 @@
+{
+  "name": "heroic-spirits",
+  "version": "0.0.1",
+  "description": "Juego Heroic Spirits TCGO, prototipo inicial",
+  "author": "Tomás Milar <tomasmilar4@gmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmilar/heroic-spirits"
+  },
+  "dependencies": {
+    "ws": "*"
+  }
+}
