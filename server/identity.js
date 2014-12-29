@@ -1,3 +1,4 @@
+//generador de id's. Soporta un prefix de configuracion, devuelve prefix+numero continuo
 var Identity_generator = function(prefix){
 	return {
 		max_id: 0,
