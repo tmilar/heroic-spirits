@@ -33,8 +33,8 @@ var logger = {
 	log: function(string) {
 		this.logInfo(string);
 	},
-	logError: function(string){
-		console.log("[ERROR]["+getDateTime()+"] : "+string);
+	logError: function(error){
+		console.log("[ERROR]["+getDateTime()+"]("+error.name+"): "+error.message);
 	},
 	logHtml: function(string){		
 		$("#log").prepend("<p>"+string+"</p>");
