@@ -4,52 +4,31 @@ var errorHandler = require('./errorHandler');
 var jugadoresRepository = require('./jugadoresRepository');
 var messageFactory = require('./messageFactory');
 
-//el juego ES la mesa donde se sientan los dos y se maneja todo el estado.
-var juego = (function(){
- 
-    var currentJugador = null;
-    var proximoJugador = null;
 
-    var mesa = null;
 
+var mesaLlenaObserver = (function mesaLlenaObserver(){
+    //REQUIRE: jugadoresRepository ( la mesa donde estan jugando ), 
+            // messageFactory
+    //REQUIRE : juego (AUNQUE DEBERIA PODER HACERSE DI para traer su estado tmb)
+    var notificar = function (Event) {
+        if((Event !== "JUGADOR_AGREGADO") || !juego.mesaLlena())
+            return;
+
+        seLlenoLaMesa();
+    }
 
     //private
-    var mesaLlena = function() {
-        return jugadoresRepository.getCantidadJugadoresConectados() > 1;
-    }
-
-
-    var puedenEntrarJugadores = function () {
-        return mesaLlena();
-    }
-
-    var agregarJugador = function(jugador) {
-
-        jugadoresRepository.agregarJugador(jugador);
-
-        var jugadoresConectados = jugadoresRepository.getCantidadJugadoresConectados();
-        logger.log("Jugador "+jugador.getUsername()+ " agregado a la mesa. Total de conectados: "+jugadoresConectados + ". ")
-        
-        verificarMesaLlena();
-
-    }
-
-
-    //private
-    var verificarMesaLlena = function(){
-        if(mesaLlena()){
-            logger.log("Se lleno la mesa!");
-            presentarOponentes();
-            enviarMsjMesaLlena();
-        }
+    var seLlenoLaMesa = function(){ 
+        logger.log("Se lleno la mesa!");
+        presentarOponentes();
+        enviarMsjMesaLlena(); 
     }
 
     //private
     var presentarOponentes = function () {        
         var jugs = jugadoresRepository.getJugadoresConectados(); 
-
-        jugs[0].oponente = jugs[1];
-        jugs[1].oponente = jugs[0];
+        jugs[0].setOponente(jugs[1]);
+        jugs[1].setOponente(jugs[0]);
     }
 
     //private
@@ -61,7 +40,50 @@ var juego = (function(){
         jug1.send(messageFactory.msjMesaLlena(jug2.datosPublicosJugador()));
         jug2.send(messageFactory.msjMesaLlena(jug1.datosPublicosJugador()));
     }
-    
+        
+
+    return {
+        notificar: notificar,
+    }
+})();
+
+//el juego ES la mesa donde se sientan los dos y se maneja todo el estado.
+var juego = (function Juego(){
+ 
+    var currentJugador = null;
+    var proximoJugador = null;
+    var nroTurno = 0;
+
+    var mesa = null;
+
+    var observadores = [mesaLlenaObserver];
+
+    var mesaLlena = function() {
+        return jugadoresRepository.getCantidadJugadoresConectados() > 1;
+    }
+
+
+    var puedenEntrarJugadores = function () {
+        return mesaLlena();
+    }
+
+    var agregarJugador = function(jugador) {
+ 
+        jugadoresRepository.agregarJugador(jugador);
+
+        var jugadoresConectados = jugadoresRepository.getCantidadJugadoresConectados();
+        logger.log("Jugador "+jugador.getUsername()+ " agregado a la mesa. Total de conectados: "+jugadoresConectados + ". ")
+        
+
+        notificar_evento("JUGADOR_AGREGADO");
+    }
+
+    //Private
+    var notificar_evento = function (Evento) { 
+        observadores.forEach(function(obs){
+            obs.notificar(Evento, juego);
+        });
+    }
 
     var desconectarJugador = function(sessionJugador) {
         jugadoresRepository.desconectarJugador(sessionJugador);
@@ -96,20 +118,24 @@ var juego = (function(){
     //private
     var repartirManoInicial =  function(){
 
-        var jugadoresConectados = jugadoresRepository.getJugadoresConectados();
-
         var CARTAS_MANO_INICIAL = 7;
 
-        for (var i = 0; i < jugadoresConectados.length; i++) {
+        var jugadoresConectados = jugadoresRepository.getJugadoresConectados();
+
+
+        jugadoresConectados.forEach(function (jug) {
+            jug.robarCartas(CARTAS_MANO_INICIAL);
+        });
+        /*for (var i = 0; i < jugadoresConectados.length; i++) {
             jugadoresConectados[i].robarCartas(CARTAS_MANO_INICIAL);
-        };
+        };*/
     }
 
     var iniciarJuego = function(){
 
         if(!validarPuedeIniciarJuego()) return;
   
-        darInicioJuego();
+        informarInicioJuego();
         repartirManoInicial();
 
         primerTurno();
@@ -117,36 +143,38 @@ var juego = (function(){
     }
 
     //private
-    var darInicioJuego = function(){
-
+    var informarInicioJuego = function(){
         broadcast(messageFactory.msjIniciarJuego());      
     }
 
-    //private
+    
     var proximoTurno = function () {
 
         var aux = currentJugador;
         currentJugador = proximoJugador;
         proximoJugador = aux;
 
-        //ENVIAR MSJ AL PROXIMO JUGADOR PARA Q EMPIECE.
+        enviarMsjProximoTurno();
     }
 
     //private
     var primerTurno = function(){        
         currentJugador = jugadoresRepository.getPrimerJugador();
         proximoJugador = jugadoresRepository.getSegundoJugador();
+
+        enviarMsjProximoTurno();
+    }
+
+    //private
+    var enviarMsjProximoTurno = function () {
+        nroTurno++;
+        currentJugador.send(messageFactory.msjEmpezarTurno(nroTurno));
     }
 
 
     //TODO aca ya deberia asumir q el jugador es legal...
-    var robarCartas = function (sessionJugador, cantidad) {
-        var jugador = jugadoresRepository.getJugador(sessionJugador);
-
-        if(!jugador){
-            errorHandler.error("Jugador no identificado correctamente! No puede robar cartas.");
-            return;
-        }
+    //TODO2 este metodo no debe ser interfaz, el jugador no roba cartas cuando quiere!!
+    var robarCartas = function (jugador, cantidad) {
 
         jugador.robarCartas(cantidad);
     }
@@ -155,7 +183,9 @@ var juego = (function(){
         agregarJugador: agregarJugador,
         desconectarJugador: desconectarJugador,
         iniciarJuego: iniciarJuego,
-        puedenEntrarJugadores: puedenEntrarJugadores
+        puedenEntrarJugadores: puedenEntrarJugadores,
+        mesaLlena: mesaLlena,
+        proximoTurno: proximoTurno,
     }
 })();
 
