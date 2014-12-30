@@ -12,7 +12,7 @@ var Identity_generator = function(prefix){
 				rv = ""+ this.max_id;
 			}
 
-			console.log(rv);
+			//console.log("identity genero un id: "+rv);
 			return rv;
 
 		}
