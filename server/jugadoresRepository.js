@@ -84,9 +84,10 @@ var jugadoresRepository = (function() {
 
         },
         getJugador: function (sessionData) {
+ 
             var conectados = this.getJugadoresConectados();
-            for (var i = 0; i < conectados.length; i++) {
-                if(conectados[i].session._id === sessionData._id){
+            for (var i = 0; i < conectados.length; i++) { 
+                if(conectados[i].getId() === sessionData._id){
                     return conectados[i];
                 }
             };
