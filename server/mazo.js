@@ -3,7 +3,7 @@ var carta_idGenerator = require('./identity')();
 var Carta = function(id_generator){
 
 	var id = id_generator.next();		 
-	logger.log("Id generado: "+id);
+	//logger.log("Id generado: "+id);
 
 	return {
 		_id: id,
@@ -86,10 +86,10 @@ var TEST_MAZO = {
 	},
 	testGenerarMazo: function(){
 		var mazoGenerado = generadorMazo.generar(25);
-		console.log(JSON.stringify(mazoGenerado));
+		logger.log(JSON.stringify(mazoGenerado));
 	}
 }	
 
-TEST_MAZO.testCartas();
-TEST_MAZO.testGenerarMazo();
+//TEST_MAZO.testCartas();
+//TEST_MAZO.testGenerarMazo();
 
