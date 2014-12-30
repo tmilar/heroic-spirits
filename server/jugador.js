@@ -25,14 +25,6 @@ var Jugador = function Jugador() {
 		}
 	}
 
-	
-	/* //Private var datosPrivadosJugador= function () {
-			return {
-				nombreMazo: mazo.nombre,
-				mano: mano			
-			}
-		}
-	*/
 	var iniciarSesion = function(loginData, client){
 
 		//..... TODO : pedirle a la BD y validar LoginData ........
@@ -52,23 +44,55 @@ var Jugador = function Jugador() {
 		session.send(msj);
 	}
 
+	var setOponente = function (opon) {
+		oponente = opon;
+	}
+
 	var robarCartas = function(cantidadCartas){
 
 		var cartas = mazo.robar(cantidadCartas);
 
 		for (var i = 0; i < cartas.length; i++) {
-			mano.push(cartas[i]);
+			agregarCartaMano(cartas[i]);
 		};
 
+		//actualizarCliente();
+
 		send(messageFactory.msjRobarCartas(cartas, mazo.cantidadCartasRestantes()));
+
+		oponente.send(messageFactory.msjActualizarOponente(
+			"oponenteRoboCartas", cantidadCartas, datosPublicosJugador())
+		);
 	}
 
 
 	var bajarCarta = function (carta) {
-		cartasMano.splice(cartasMano.indexOf(carta), 1);
-		cartasJuego.push(carta);
+		quitarCartaMano(carta);
+		mesa.bajarCarta(carta);
+
+		send(messageFactory.msjBajarCarta(carta));
+		oponente.send(messageFactory.msjActualizarOponente(
+			"oponenteBajoCarta", carta, datosPublicosJugador())
+		);
+
 	}
 
+	//private
+	var agregarCartaMano = function(carta){
+		mano.push(carta);
+	}
+	//private
+	var quitarCartaMano = function  (carta) {
+		cartasMano.splice(cartasMano.indexOf(carta), 1);
+	}
+
+	/*
+	//private
+	var actualizarCliente = function (msj_propio, msj_oponente) {
+		send(msj_propio);
+		oponente.send(msj_oponente);
+	}
+	*/
 	var estaConectado = function () {
 		return !session.isClosed(); // session != null;
 	}
@@ -91,7 +115,8 @@ var Jugador = function Jugador() {
 		bajarCarta: bajarCarta,
 		estaConectado: estaConectado,
 		desconectar: desconectar,
-		getUsername: getUsername
+		getUsername: getUsername,
+		setOponente: setOponente
 
 	}
 
