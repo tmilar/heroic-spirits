@@ -8,10 +8,11 @@ var jugadoresRepository = (function() {
 
         agregarJugador : function(jugador) {
 
-            if(this.existeJugadorRegistrado(jugador))
+            if(this.existeJugadorRegistrado(jugador)) {
+                //logger.logError({name: "JugadorRegistrado", message: "El jugador "+jugador.getUsername()+" ya estaba registrado."});
                 return; 
-
-            logger.log("[JugRepo] se agrego al jugador: "+jugador.getUsername());
+            }            
+            logger.log("[JugRepo] Se registro al jugador: "+jugador.getUsername()+ ".");
 
             this.jugadores.push(jugador);
             return this.jugadores.length - 1;
@@ -26,6 +27,9 @@ var jugadoresRepository = (function() {
             return this.getJugadoresConectados()[0];
         },
 
+        getSegundoJugador: function(){
+            return this.getJugadoresConectados()[1];
+        },
 
         nextJugador : function(current) {
             for(var h = 0; h < this.jugadores.length - 1; h++) {
