@@ -2,7 +2,7 @@ var messageFactory = {
 
     msjIniciarJuego: function(){
         return JSON.stringify({
-                    operacion: "iniciarJuego"
+                    operacion: "iniciarJuego" 
                 });
     },
 
@@ -44,11 +44,27 @@ var messageFactory = {
             });
     },
 
-    msjMesaLlena: function() {
+    msjEmpezarTurno: function (nroTurno) {
         return JSON.stringify({
-                operacion: "mesaLlena"
+                operacion: "empezarTurno",
+                nroTurno: nroTurno
         })
-    }
+    },
+    
+    msjMesaLlena: function(oponente) {
+        return JSON.stringify({
+                operacion: "mesaLlena",
+                oponente: oponente
+        })
+    },
+
+    msjActualizarOponente: function(operacion, data, datosJugador) {
+        return JSON.stringify({
+                operacion: operacion,
+                data: data,
+                jugador: datosJugador
+        })        
+    },
 
 }
 
