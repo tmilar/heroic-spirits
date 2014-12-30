@@ -1,6 +1,12 @@
 
 var currentSession = null;
 
+var IMG_CARTA_FONDO = "http://4.bp.blogspot.com/_yJpgVtS93ho/TE7sRpxpueI/AAAAAAAAAZk/P9F0VNvtL5Y/s1600/card_back_arreglat.png";
+var IMG_CARTA_MANO = "http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png";
+var IMG_CARTA_MESA_J1 = "http://4.bp.blogspot.com/-9pweicITRx8/TabnxKINofI/AAAAAAAAB-c/ljIgZf_LwGU/s1600/signo+de+exclamacion.png";
+var IMG_CARTA_MESA_J2 = "http://us.cdn4.123rf.com/168nwm/niyazz/niyazz1310/niyazz131000021/22620410-simbolo-de-exclamacion-en-el-fuego-sobre-fondo-negro.jpg";
+
+/*
 var messageFactory = {
 
 	msjIniciarJuego: function(){
@@ -25,10 +31,10 @@ var messageFactory = {
 				});
 	}
 
-}
+}*/
 
 
-
+/*
 var messageHandler = (function(){
 
 	return {
@@ -91,8 +97,8 @@ var messageHandler = (function(){
 		}
 	}
 })();
-
-
+*/
+/*
 var cache = (function(){
 
 	var items = [];
@@ -129,12 +135,9 @@ var cache = (function(){
 
 	}
 })();
+*/
 
-var IMG_CARTA_FONDO = "http://4.bp.blogspot.com/_yJpgVtS93ho/TE7sRpxpueI/AAAAAAAAAZk/P9F0VNvtL5Y/s1600/card_back_arreglat.png";
-var IMG_CARTA_MANO = "http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png";
-var IMG_CARTA_MESA_J1 = "http://4.bp.blogspot.com/-9pweicITRx8/TabnxKINofI/AAAAAAAAB-c/ljIgZf_LwGU/s1600/signo+de+exclamacion.png";
-var IMG_CARTA_MESA_J2 = "http://us.cdn4.123rf.com/168nwm/niyazz/niyazz1310/niyazz131000021/22620410-simbolo-de-exclamacion-en-el-fuego-sobre-fondo-negro.jpg";
-
+/*
 var gui = {
 
 	procesarMsj: function (msj) {
@@ -277,6 +280,9 @@ var gui = {
 	}
 	
  }
+
+*/
+/*
 var ui = {
 
 	servidor: null,
@@ -348,8 +354,9 @@ var ui = {
 		this.servidor.close();
 	}
 }
+*/
 
-
+/*
 
 //Setup del juego y asignar eventos a la GUI
 var eventHandler = function(){
@@ -361,10 +368,10 @@ var eventHandler = function(){
 	var onClickRobarCarta = function () {
 		ui.robarCarta();
 	}
-	/*
-	var onDeclararAtaque = function(){
-		ui.declararAtaque($(""))
-	}*/
+	
+	//var onDeclararAtaque = function(){
+	//	ui.declararAtaque($(""))
+	//}
 
 	var onClickCarta = function(event){		
 		var cartaSeleccionada = $(this).closest(".contenedor-carta");
@@ -404,6 +411,5 @@ var eventHandler = function(){
 
 		gui.inicializar();
 	});
-
-
 }();
+*/
