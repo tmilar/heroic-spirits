@@ -26,3 +26,13 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# no subir assets
+assets
+
+#ignorar img originales
+Cartas ejemplo - originales/
+tablero - originales/
+
+#ignorar archivos de phpstorm
+.idea
