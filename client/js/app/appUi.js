@@ -1,9 +1,10 @@
-var ui = {
+
+var appUi = {
 
 	servidor: null,
 	jugador: null,
 
-	cartaSeleccionada: null,
+	cartaSeleccionada: null, //Guardar temporalmente la ultima carta clickeada
 
 	robarCarta: function (cantidad) {
 		this.servidor.send(messageFactory.msjRobarCartas(cantidad));
@@ -44,15 +45,40 @@ var ui = {
 
 	},
 
-	bajarCarta: function(){
+	bajarCarta: function($cartaBajada){
 		//TODO:  q el servidor valide que la carta este posta en la mano del jugador.
-		//if(!cartaSeleccionada || cartaSeleccionada.closest())
-			if(cartaSeleccionada != null) {
-				this.servidor.send(messageFactory.bajarCarta(cartaSeleccionada));
-			}else{
-				errorHandler.error("No selecciono ninguna carta!");
-			} 
-	},
+		var idCarta = $cartaBajada.attr("data-idcarta");
+ 		logger.log("Baje la carta: [id: "+idCarta+"]");
+
+		//obtengo el target, el ul de cartas en la mesa
+		var $cartasMesa =  $("ul", ".jugador .campoBatalla");
+		var $liContainer = $("<li></li>");
+		var $divContainerCarta = $("<div class='carta' data-idcarta="+idCarta+"></div>");
+		var $imgCarta = $cartaBajada.children('img');
+
+		$liContainer.append($divContainerCarta);
+ 		$cartasMesa.append($liContainer).fadeIn(function(){
+
+			$imgCarta
+				.animate({ width: "150px" })
+				.animate({height: "200px"});
+		});
+
+		$divContainerCarta.append($imgCarta).fadeIn(function(){
+        //
+		//	//	var anchoContainer = $divContainerCarta.attr("width").toString();
+		//	//	var altoContainer = $divContainerCarta.attr("height").toString();
+		//	$imgCarta
+		//		.animate({ width: "150px" })
+		//		.animate({height: "200px"});
+		//	//
+		});
+
+		$cartaBajada.parent("li").remove();
+		$cartaBajada.remove();
+
+ 		this.servidor.send(messageFactory.bajarCarta(cartaSeleccionada));
+ 	},
 
 	seleccionarCarta: function(datosCarta){
 		this.cartaSeleccionada = cache.getItemById(datosCarta._id);
@@ -68,4 +94,4 @@ var ui = {
 		logger.log("Conexion con el servidor cerrada.");
 		this.servidor.close();
 	}
-}
+};

@@ -47,17 +47,14 @@ html, body{
 
 .oponente{
     height: 50%;
-    /*border: rosybrown 0.1em dashed;*/
 }
 .jugador{
     height: 50%;
-    /*border: saddlebrown 0.1em dashed;*/
 }
 
 .droppableCartas{
     background-color: rgba(0,229,238,0.5	);
     background-clip: border-box;
-    /*width: 100%;*/
 }
 
 .zonaCartas {
@@ -112,14 +109,62 @@ html, body{
 }
  .oponente .campoBatalla{
     background-image: url("../img/tablero/pergamino1_top.jpg");
-    /*border: 0.2em red solid;*/
+     /*z-index: 1 ;*/
 }
 
 .jugador .campoBatalla{
     background-image: url("../img/tablero/pergamino1_bot.jpg");
-    /*border: 0.2em red solid;*/
+    /*z-index: -10 ;*/
 }
 
+.jugador .campoBatall
+{
+    position:relative;
+}
+.jugador .campoBatalla .row
+{
+    position:relative;
+}
+.jugador .campoBatalla .column
+{
+    position:relative;
+}
+.jugador .campoBatalla .zonaCartas
+{
+    position:relative;
+}
+.jugador .campoBatalla .list-inline
+{
+    position:relative;
+}
+.jugador .campoBatalla .li
+{
+    position:relative;
+}
+.jugador .campoBatalla .ul
+{
+    position:relative;
+}
+.jugador .campoBatalla .carta
+{
+    position:relative;
+}
+
+/*.jugador .campoBatalla,*/
+/*.jugador .campoBatalla .row,*/
+/*.jugador .campoBatalla .column,*/
+/*.jugador .campoBatalla .zonaCartas,*/
+/*.jugador .campoBatalla >.list-inline,*/
+/*.jugador .campoBatalla .li,*/
+/*.jugador .campoBatalla .ul,*/
+/*.jugador .campoBatalla .carta,*/
+/*{*/
+    /*position:relative;*/
+/*}*/
+/*.jugador .campoBatalla .carta{*/
+    /*z-index: 10 ;*/
+ /**/
+/*}*/
 
 .vidas{
     position: absolute;
@@ -239,3 +284,22 @@ html, body{
     position: absolute;
     top: 1em;
 }
+
+.correccionSortable{
+    /*height: -100px;*/
+}
+
+
+/*Correccion para los sortables y jquery effects (faltaria definir un placeholder de igual tamanio a la carta) */
+.jugador .zonaCartas .carta{
+    float: left;
+}
+
+.cartaPlaceholder{
+
+}
+
+/**, *:before, *:after {*/
+/*z-index:    1;*/
+
+/*}*/

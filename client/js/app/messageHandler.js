@@ -39,7 +39,7 @@ var messageHandler = (function(){
 				case "respuestaConexion":
 					if(!msj.session){
 						errorHandler.error("El SV no autorizo la conexion. Motivo: '"+msj.mensaje+"'.");
-						ui.desconectarServidor();
+						appUi.desconectarServidor();
 						return;
 					}
 					gui.mostrarUsername(msj.session.username);

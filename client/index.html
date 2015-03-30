@@ -1,86 +1,327 @@
 <!DOCTYPE html>
-<html lang="en-US">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Heroic Spirits</title>
 
-		<link rel="stylesheet" href="css/style.css" type="text/css">
-		<script type="text/javascript" src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-		
-		<script type="text/javascript" src="utils/date.format.js"></script>
-		<script type="text/javascript" src="utils/logger.js"></script>
-		<script type="text/javascript" src="utils/errorHandler.js"></script> 
+    <!--link rel="stylesheet/less" href="less/bootstrap.less" type="text/css" /-->
+    <!--link rel="stylesheet/less" href="less/responsive.less" type="text/css" /-->
+    <!--script src="js/less-1.3.3.min.js"></script-->
+    <!--append ‘#!watch’ to the browser URL, then refresh the page. -->
 
-		<script type="text/javascript" src="estadoGuiHandler.js"></script>
-		<script type="text/javascript" src="juego.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <script type="text/javascript" src="js/libs/jquery.min.js"></script>
+    <script type="text/javascript" src="js/libs/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" src="js/app/utils/logger.js"></script>
+    <script type="text/javascript" src="js/app/utils/date.format.js"></script>
+    <script type="text/javascript" src="js/app/utils/errorHandler.js"></script>
+
+    <script type="text/javascript" src="js/app/cache.js"></script>
+
+    <script type="text/javascript" src="js/app/appUi.js"></script>
+    <script type="text/javascript" src="js/app/eventHandler.js"></script>
+</head>
+
+<body>
+<div class="juego container">
+    <!-- OPONENTE -->
+    <div class="oponente row clearfix">
+
+        <!-- sector izquierdo -->
+        <div class="col-md-2 column  ">
+            <!-- Datos -->
+            <div class="datos arriba">
+                <h3 class="username">
+                    User. oponente
+                </h3>
+                <div class="avatar">
+                    <img alt="140x140" src="http://lorempixel.com/140/145/" class="img-rounded">
+                </div>
+
+            </div>
+
+            <!-- Descarte -->
+            <div class="row clearfix alturaMax ">
+                <div class="  col-md-12 column ">
+                    <div class="descarte   abajo">
+                        <img  src="img/tablero/descarte.png" class="oculto">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- sector medio -->
+        <div class="col-md-9 column">
+
+            <!-- mano oponente -->
+            <div class="row clearfix altura30 vertical-align">
+                <div class="col-md-2 column">
+                    <div class="vidas">
+                        25
+                    </div>
+                </div>
+                <div class="mano col-md-8 column centrar-columna">
+                    <div class=" zonaCartas ">
+                        <ul class="list-inline">
+                            <li>
+                                <div class="carta" data-idcarta="1">
+                                    <img  src="img/cartas/atras.jpg">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="2">
+
+                                    <img  src="img/cartas/atras.jpg">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="3">
+                                    <img src="img/cartas/atras.jpg">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="4">
+                                    <img src="img/cartas/atras.jpg" >
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-2 column">
+                    <div class="poder">
+                        <img src="img/tablero/skill1.png" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- campo batalla -->
+            <div class="row clearfix altura70">
+                <div class=" campoBatalla col-md-12 column">
+                    <!-- imagen fondo -->
+                    <div class="    abajo  ">
+                        <img src="img/tablero/pergamino1_top.jpg" class="oculto">
+                    </div>
+
+                    <!-- cartas MESA Oponente -->
+                    <div class="row clearfix alturaMax vertical-align ">
+                        <div class="col-md-12 column centrar-columna">
+                            <div class=" zonaCartas ">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <div class="carta" data-idcarta="5">
+                                                <img src="img/cartas/4.png" >
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="carta" data-idcarta="6">
+
+                                                <img src="img/cartas/5.png" >
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="carta" data-idcarta="7">
+                                                <img src="img/cartas/6.png" >
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
-		<script type="text/javascript" src="messageFactory.js"></script>
-		<script type="text/javascript" src="messageHandler.js"></script>
-		<script type="text/javascript" src="cache.js"></script>
-		<script type="text/javascript" src="gui.js"></script>
-		<script type="text/javascript" src="ui.js"></script>
-		<script type="text/javascript" src="eventHandler.js"></script>
- 
+        <!-- sector derecho -->
+        <div class="col-md-1 column">
+
+            <div class="row clearfix alturaMax">
+                <div class="col-md-12 column">
+
+                    <!-- Mazo -->
+                    <div class="mazo arriba  ">
+                        <img  src="img/tablero/cartaAtras.jpg" class="oculto ">
+                    </div>
+
+                    <!-- Boton Pasar -->
+                    <div class="pasar ">
+                        <img src="img/tablero/btnPasar.png" href="#" class="oculto ">
+                    </div>
+
+                    <!-- Cristales -->
+                    <div class="cristales abajo  ">
+                        <!-- TODO acomodoar los cristales para mostrar num.-->
+                        <img src="img/tablero/cristalesMap.png" class="oculto "/>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JUGADOR -->
+    <div class="jugador row clearfix">
+
+        <!-- sector izquierdo -->
+        <div class="col-md-2 column">
+            <div class="row clearfix">
+                <!--<div class="col-md-3 column">-->
+                    <!--&lt;!&ndash; vacio &ndash;&gt;-->
+                <!--</div>-->
+                <div class="  col-md-12 column">
+                    <div class="descarte arriba">
+                        <img src="img/tablero/descarte.png" class="oculto"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="datos abajo">
+                <h3 class="username">
+                    User. jugador
+                </h3>
+                <div class="avatar">
+                    <img alt="140x140" src="http://lorempixel.com/145/140/" class="img-rounded">
+                </div>
+            </div>
+        </div>
+
+        <!-- sector medio -->
+        <div class="col-md-9 column">
+
+            <!-- campo batalla -->
+            <div class="row clearfix altura70">
+                <div class="campoBatalla col-md-12 column">
+                    <!-- imagen fondo -->
+                    <div class="    arriba  ">
+                        <img src="img/tablero/pergamino1_top.jpg" class="oculto">
+                    </div>
+
+                    <!-- cartas MESA jugador -->
+                    <div class="row clearfix alturaMax vertical-align ">
+                        <div class="col-md-12 column centrar-columna">
+                            <div class=" zonaCartas ">
+
+                                <ul class="list-inline">
+                                    <li>
+                                        <div class="carta" data-idcarta="8">
+                                            <img src="img/cartas/1.png" >
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="carta" data-idcarta="9">
+                                            <img src="img/cartas/2.png" >
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- mano jugador -->
+            <div class="row clearfix altura30 vertical-align">
+                <div class="col-md-1 column">
+                    <div class="vidas">
+                        25
+                    </div>
+                </div>
+                <div class="mano col-md-9 column centrar-columna">
+                    <div class="zonaCartas">
+                        <ul class="list-inline">
+                            <li>
+                                <div class="carta" data-idcarta="11">
+                                    <img  src="img/cartas/2.png">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="12">
+
+                                    <img   src="img/cartas/3.png" >
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="13">
+                                    <img   src="img/cartas/4.png" >
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="13">
+                                    <img   src="img/cartas/4.png" >
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="13">
+                                    <img   src="img/cartas/4.png" >
+                                </div>
+                            </li>
+                            <li>
+                                <div class="carta" data-idcarta="13">
+                                    <img   src="img/cartas/4.png" >
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="col-md-2 column">
+                    <div class="poder">
+                        <img src="img/tablero/skill2.png" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- sector derecho -->
+        <div class="col-md-1 column">
+
+            <div class="row clearfix  alturaMax">
+                <div class="  col-md-12 column  ">
+                    <div class="mazo abajo">
+                        <img  src="img/tablero/cartaAtras.jpg" class="oculto">
+                    </div>
+
+                    <div class="cristales arriba">
+                        <img src="img/tablero/cristalesMap.png" class="oculto"/>
+                    </div>
+                    <!-- TODO acomodoar los cristales para mostrar num.-->
+                </div>
+            </div>
+
+        </div>
 
 
-		<title>Heroic Spirits</title>
-	</head>
+    </div>
 
-	<body>
-
-		<div>
-			<input type="button" id="btnConectar" class="conexion" value="Conectar al servidor">
-			<input type="button" id="btnIniciar" value="INICIAR!" disabled hidden>
-			<input type="text" value="127.0.0.1" class="conexion" id="serverAddress" placeholder="ip servidor...">
-			<input type="text" value="8080" id="serverPort" class="conexion" placeholder="puerto"><br/><br/>
-			<input type="text" value="" id="username" class="conexion" placeholder="username...">
-			<input type="password" value="123456" id="password" class="conexion" placeholder="password...">
-		
-
-			<div id="juego" class="juego" hidden>
-				<div id="manoOponente" class="manoOponente">
-					<h4>Mano del oponente:</h4>
-					<ul > 
-
-					</ul>
-					<span>Cartas: 0</span> 
-				</div>
-
-				<div id = "mesaOponente"> 
-					<h5>Mesa del oponente: </h5>
-					<ul>
-
-					</ul>
-				</div>
-
-				<div id = "mesaJugador">
-					<h5>Tu mesa: </h5>
-					<ul>
-
-					</ul>
-				</div>
-
-				<div id="manoJugador" class="manoJugador">
-					<h4>Tu mano:</h4>
-					<ul > 
-						<li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li><li><div><img class="carta" src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png"></div></li>
-					</ul>
-				</div>
-				<div id="mazoJugador">Mazo Jugador:
-					<span id="cartasRestantesMazo">???</span>
-				</div>
-
-				<div id="mazoOponente">Mazo oponente:
-					<span id="cartasRestantesMazo">???</span>
-				</div>
-			</div>
-
-
-
-			<div id= "datosJugador" hidden>Jugador: <span id="username1"></span></div>
-		
-
-		</div>
-	</body>
+</div>
+</body>
 </html>

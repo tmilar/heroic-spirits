@@ -75,7 +75,7 @@ var messageHandler = (function(){
 				case "respuestaConexion":
 					if(!msj.session){
 						errorHandler.error("El SV no autorizo la conexion. Motivo: '"+msj.mensaje+"'.");
-						ui.desconectarServidor();
+						appUi.desconectarServidor();
 						return;
 					}
 					gui.mostrarUsername(msj.session.username);
@@ -283,7 +283,7 @@ var gui = {
 
 */
 /*
-var ui = {
+var appUi = {
 
 	servidor: null,
 	jugador: null,
@@ -362,15 +362,15 @@ var ui = {
 var eventHandler = function(){
 
 	var onBajarCarta = function(){
-		ui.bajarCarta();
+		appUi.bajarCarta();
 	}
 
 	var onClickRobarCarta = function () {
-		ui.robarCarta();
+		appUi.robarCarta();
 	}
 	
 	//var onDeclararAtaque = function(){
-	//	ui.declararAtaque($(""))
+	//	appUi.declararAtaque($(""))
 	//}
 
 	var onClickCarta = function(event){		
@@ -384,16 +384,16 @@ var eventHandler = function(){
 		datosCarta = {//nroJugador: $(this).attr("data-nroJugador"),
 					  _id: cartaSeleccionada.attr("data-idcarta"),
 					}
-		ui.seleccionarCarta(datosCarta);
+		appUi.seleccionarCarta(datosCarta);
 	}
 
 	var onClickIniciar = function(){
 		$(this).attr("disabled", "disabled");
-		ui.iniciarJuego();
+		appUi.iniciarJuego();
 	}
 	var onClickConectar= function(){
 		logger.log("Hice clic en el boton conectar.");
-		ui.conectarServidor();
+		appUi.conectarServidor();
 	}
 
 	$(document).ready(function() {

@@ -10,8 +10,12 @@ var estadoGuiHandler = (function(){
 		procesarMsj: function (msj) {
 			if(msj.operacion=="inicializar"){
 				proximoEstado(Conectado);
-			}else if(msj.operacion=="errorConexion"){
+			}
+			if(msj.operacion=="errorConexion"){
 				proximoEstado(ProblemaConexion);
+			}
+			if(msj.oponente){
+				gui.actualizarDatosOponente(msj.oponente);
 			}
 		}
 	}
@@ -46,7 +50,7 @@ var estadoGuiHandler = (function(){
 		procesarMsj: function(msj){
 			EstadoBase.procesarMsj(msj);
 			if(msj.operacion =="mesaLlena"){
-				proximoEstado(MesaLlena);
+				proximoEstado(MesaLlena, msj);
 			}
 		},
 		salir: function() {
@@ -55,12 +59,15 @@ var estadoGuiHandler = (function(){
 	}
 
 	var MesaLlena = {
-		entrar: function(){
+		entrar: function(){//msj){
 			gui.habilitarBotonInicio(true);
-			logger.log("Se lleno la mesa! Ya es posible empezar el juego.");
+			logger.log("Se lleno la mesa! Ya es posible empezar el juego."); 
+			//gui.actualizarDatosOponente(msj.oponente);
+			gui.mostrarDatosOponente(true);
 		},
 		procesarMsj: function (msj) {
 			EstadoBase.procesarMsj(msj);
+
 			if(msj.operacion == "iniciarJuego"){
 				if(msj.teTocaJugar){
 					proximoEstado(TurnoJugador);
@@ -79,16 +86,21 @@ var estadoGuiHandler = (function(){
 
 	var TurnoJugador = {
 		entrar: function(){
+			logger.log("Comienza tu turno.");
 			gui.habilitarJugadas(true);
 		},
 		procesarMsj: function (msj) {
 			EstadoBase.procesarMsj(msj);
-			if(msj.operacion == "turnoFinalizado"){
+			if(msj.operacion == "proximoTurno"){
 				proximoEstado(TurnoOponente);
 			}
 		},
+		//terminarTurno: function () {
+		//	proximoEstado(TurnoOponente);
+		//},
 		salir: function(){
 			gui.habilitarJugadas(false);
+			logger.log("Turno finalizado.");
 		}
 	}
 
@@ -98,7 +110,7 @@ var estadoGuiHandler = (function(){
 		},
 		procesarMsj: function  (msj) {
 			EstadoBase.procesarMsj(msj);
-			if(msj.operacion=="comenzarTurno"){
+			if(msj.operacion=="proximoTurno"){
 				proximoEstado(TurnoJugador);
 			}
 		},
@@ -130,11 +142,11 @@ var estadoGuiHandler = (function(){
 	var EstadoActual = null;
 	var EstadoAnterior = null;
 
-	var proximoEstado = function(nuevoEstado){
-		EstadoActual.salir();
+	var proximoEstado = function(nuevoEstado, msj){
+		EstadoActual.salir(msj);
 		EstadoAnterior = EstadoActual;
 		EstadoActual = nuevoEstado;
-		EstadoActual.entrar();
+		EstadoActual.entrar(msj);
 	}
 
 
@@ -152,11 +164,19 @@ var estadoGuiHandler = (function(){
 		EstadoActual.entrar();
 	}
 
+	/*)
+	var terminarTurno = function () {
+		if(EstadoActual === TurnoJugador)
+			EstadoActual.terminarTurno();
+		else
+			logger.log("No es tu turno, no podes terminarlo!");
+	}
 	//inicializar();
-
+	*/
 	return {	
 		inicializar: inicializar,
 		procesarMsj: procesarMsj,
+		//terminarTurno: terminarTurno,
 	}
 
 })();

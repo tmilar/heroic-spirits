@@ -1,0 +1,16 @@
+.hola{
+	width: 5px;
+}
+.chau{
+	width: 10px;
+}
+
+.hola .chau{
+	height: 20px;
+}
+
+div{
+	padding: 1em;
+	margin: 0.5em;
+	border: 0.2em black solid;
+}

@@ -1,3 +1,10 @@
+var cartaElement = function(carta){
+	return $('<li>').append(
+		    	$('<div>').attr({"data-idCarta": carta._id}).addClass("contenedor-carta").append(
+		        	$('<img>').attr('src',carta.imgSrc).addClass("carta")
+				        	));
+}
+
 var gui = {
 
 	procesarMsj: function (msj) {
@@ -10,45 +17,33 @@ var gui = {
 	},
 
 	agregarCartaManoJugador: function(carta){
-		var imgSrc = IMG_CARTA_MANO;
+		carta.imgSrc = IMG_CARTA_MANO;
 
+		var cartaEl = cartaElement(carta);
 		//TODO var imgSrc = carta.imgSrc;
-		$('#manoJugador ul').append(
-		    $('<li>').append(
-		    	$('<div>').attr({"data-idCarta": carta._id}).addClass("contenedor-carta").append(
-		        	$('<img>').attr('src',imgSrc).addClass("carta")
-				        	)));
+		$('#manoJugador ul').append(cartaEl); 
 	},
 
 	agregarCartaManoOponente: function(carta){		
-		var imgSrc = IMG_CARTA_FONDO;
+		carta.imgSrc = IMG_CARTA_FONDO;
 
+		var cartaEl = cartaElement(carta);
 		//TODO var imgSrc = carta.imgSrc;
-		$('#manoJugador ul').append(
-		    $('<li>').append(
-		    	$('<div>').attr({"data-idCarta": carta._id}).addClass("contenedor-carta").append(
-		        	$('<img>').attr('src',imgSrc).addClass("carta")
-				        	)));
+		$('#manoJugador ul').append(cartaEl);
 
 	},
 	agregarCartaMesaJugador: function(carta){		
-		var imgSrc = IMG_CARTA_MESA_J1;
+		carta.imgSrc = IMG_CARTA_MESA_J1;
 
-		$('#mesaJugador ul').append(
-		    $('<li>').append(
-		    	$('<div>').attr("data-idCarta", carta._id).addClass("contenedor-carta").append(
-		        	$('<img>').attr('src',imgSrc).addClass("carta")
-		        			)));
+		var cartaEl = cartaElement(carta);
+		$('#mesaJugador ul').append(cartaEl);
 	},
 
 	agregarCartaMesaOponente: function (carta) {
-		var imgSrc = IMG_CARTA_MESA_J2;
+		carta.imgSrc = IMG_CARTA_MESA_J2;
 
-		$('#mesaOponente ul').append(
-		    $('<li>').append(
-		    	$('<div>').attr("data-idCarta", carta._id).addClass("contenedor-carta").append(
-		        	$('<img>').attr('src',imgSrc).addClass("carta")
-		        		)));
+		var cartaEl = cartaElement(carta);
+		$('#mesaOponente ul').append(cartaEl);
 	},
 
 	bajarCarta: function(carta){
@@ -120,11 +115,7 @@ var gui = {
 	},
 
 	habilitarBotonConexion: function (habilitado) {
-		if(habilitado){
-			$("#btnConectar").removeAttr("disabled");
-		}else{			
-			$("#btnConectar").attr("disabled", "disabled");
-		}	
+		habilitado ? $("#btnConectar").removeAttr("disabled") : $("#btnConectar").attr("disabled", "disabled"); 
 	},
 
 	mostrarUsername: function (username) {
@@ -137,6 +128,26 @@ var gui = {
 			$("#juego").show();
 		else	
 			$("#juego").hide();
-	}
+	},
+
+	mostrarDatosOponente: function (mostrar) {
+
+		logger.log("Mostrando datos del oponente,, desde el gui");
+		if(mostrar) {
+ 			$("#datosOponente").removeAttr("hidden");
+			$("#datosOponente").show();
+		}
+		else	
+			$("#datosOponente").hide(); 
+	},
+
+	actualizarDatosOponente: function (datosOponente) {
+		logger.log("actualizando datos: "+JSON.stringify(datosOponente));
+		$("#username2").text(datosOponente.username);
+		$("#vidasOponente").text(datosOponente.vidas);
+		$("#cantidadCartasMazoOponente").text(datosOponente.cantidadCartasMazo);
+		$("#cantidadCartasManoOponente").text(datosOponente.cantidadCartasMano);
+	},
 	
+
  }
