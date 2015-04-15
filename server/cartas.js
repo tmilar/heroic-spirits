@@ -8,7 +8,7 @@ var cartaInvocacionMiyamoto = {
 	habilidades: {
 		//"rapidez, atravesar, furia"
 		
-	},
+	}
 }
 
 function Stats(ataque, defensa, vida){

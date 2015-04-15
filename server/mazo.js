@@ -15,20 +15,20 @@ var Carta = function(id_generator){
 		}
 	}
 
-}
+};
 
 var generadorMazo = {
 
 	generar: function(cantidadCartasMazo){
-		var datosCartas = {}
+		var datosCartas = {};
 		datosCartas.cartas = [];
 		for (var i = 0; i < cantidadCartasMazo; i++) {
 			datosCartas.cartas.push(Carta(carta_idGenerator));
-		};
+		}
 
 		return Mazo(datosCartas);
 	}
-}
+};
 
 var Mazo = function(dataMazoCartasJugador){
 
@@ -53,6 +53,7 @@ var Mazo = function(dataMazoCartasJugador){
 
 		robar: function(cantidad){
 			var cartasRobadas= [];
+            var nextCarta;
 			while((nextCarta = this.cartas.pop()) && cantidad > 0){
 
 				cartasRobadas.push(nextCarta);
@@ -66,7 +67,7 @@ var Mazo = function(dataMazoCartasJugador){
 			return this.cartas.length;
 		}
 	}
-}
+};
 
 //module.exports = Carta;
 module.exports = Mazo;

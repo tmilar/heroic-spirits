@@ -22,7 +22,7 @@ serverWs.validarNuevaConexion = function() {
             message: "Se conecto un cliente pero la mesa ya esta llena. Conexion rechazada."
         };
     }
-}
+};
 
 serverWs.aceptarCliente = function(client){
 

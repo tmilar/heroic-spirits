@@ -26,6 +26,6 @@ var loginModule = {
         return jugador;
     }
 
-}
+};
 
 module.exports = loginModule;

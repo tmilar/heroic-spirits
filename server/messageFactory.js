@@ -64,7 +64,7 @@ var messageFactory = {
                 data: data,
                 jugador: datosJugador
         })        
-    },
+    }
 
 }
 

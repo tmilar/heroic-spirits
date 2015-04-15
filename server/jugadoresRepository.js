@@ -66,7 +66,7 @@ var jugadoresRepository = (function() {
                     conectados.push(this.jugadores[i]);
                 }
 
-            };
+            }
             return conectados;
         },
 
@@ -80,7 +80,7 @@ var jugadoresRepository = (function() {
                  if(this.jugadores[i].getId() == sessionJugador._id){
                     this.jugadores[i].desconectar();
                  }
-             }; 
+             }
 
         },
         getJugador: function (sessionData) {
@@ -90,7 +90,7 @@ var jugadoresRepository = (function() {
                 if(conectados[i].getId() === sessionData._id){
                     return conectados[i];
                 }
-            };
+            }
             return null;
         }
     }

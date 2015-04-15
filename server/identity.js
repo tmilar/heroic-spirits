@@ -17,6 +17,6 @@ var Identity_generator = function(prefix){
 
 		}
 	}
-}
+};
 
 module.exports = Identity_generator;

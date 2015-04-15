@@ -19,6 +19,7 @@ var Mazo1 = function(){
 
 		robar: function(cantidad){
 			var cartasRobadas= [];
+            var nextCarta;
 			while((nextCarta = this.cartas.pop()) && cantidad > 0){
 
 				cartasRobadas.push(nextCarta);
@@ -28,7 +29,7 @@ var Mazo1 = function(){
 			return cartasRobadas;
 		}
 	}
-}
+};
 
 
 var Mazo = require('./mazo');

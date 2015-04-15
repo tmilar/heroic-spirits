@@ -14,7 +14,7 @@ var Jugador = function Jugador() {
 
 	var getId = function(){
 		return session.getId();
-	}
+	};
 
 	var datosPublicosJugador = function () {
 		return {
@@ -23,7 +23,7 @@ var Jugador = function Jugador() {
 			cantidadCartasMazo: mazo.cantidadCartasRestantes(),
 			cantidadCartasMano: mano.length
 		}
-	}
+	};
 
 	var iniciarSesion = function(loginData, client){
 
@@ -54,7 +54,7 @@ var Jugador = function Jugador() {
 
 		for (var i = 0; i < cartas.length; i++) {
 			agregarCartaMano(cartas[i]);
-		};
+		}
 
 		//actualizarCliente();
 

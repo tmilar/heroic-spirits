@@ -4,6 +4,6 @@ var cid_generator = {
         this._cid++;
         return "cid#"+this._cid;
     }
-}
+};
 
 module.exports = cid_generator;	

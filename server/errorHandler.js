@@ -13,7 +13,7 @@ var errorHandler = (function(){
 		imprimirErrorStack: function(){
 			for (var i = errorStack.length - 1; i >= 0; i--) {
 				console.log("Err #"+i + ": " +errorStack[i]);
-			};
+			}
 		}
 	}
 })();

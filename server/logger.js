@@ -22,7 +22,7 @@ var getDateTime = function () {
 	var d = new Date();
 	//return dateFormat(d, " dd/mm/yyyy HH:MM:ss ");
 	return dateFormat(d, "HH:MM:ss");
-}
+};
 
 var logger = {
 

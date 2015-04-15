@@ -24,7 +24,7 @@ var messageHandler = (function(){
         } finally {
             return jugadorLogueado;
         }
-    }
+    };
 
     //private
     var identificarJugador = function (msj) { 
@@ -101,7 +101,7 @@ var messageHandler = (function(){
                 else
                     throw e;
             }
-        },
+        }
         /*
         procesar2: function(msj, client){
 

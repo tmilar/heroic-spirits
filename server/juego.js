@@ -15,21 +15,21 @@ var mesaLlenaObserver = (function mesaLlenaObserver(){
             return;
 
         seLlenoLaMesa();
-    }
+    };
 
     //private
     var seLlenoLaMesa = function(){ 
         logger.log("Se lleno la mesa!");
         presentarOponentes();
         enviarMsjMesaLlena(); 
-    }
+    };
 
     //private
     var presentarOponentes = function () {        
         var jugs = jugadoresRepository.getJugadoresConectados(); 
         jugs[0].setOponente(jugs[1]);
         jugs[1].setOponente(jugs[0]);
-    }
+    };
 
     //private
     var enviarMsjMesaLlena = function () {
@@ -43,7 +43,7 @@ var mesaLlenaObserver = (function mesaLlenaObserver(){
         
 
     return {
-        notificar: notificar,
+        notificar: notificar
     }
 })();
 
@@ -185,7 +185,7 @@ var juego = (function Juego(){
         iniciarJuego: iniciarJuego,
         puedenEntrarJugadores: puedenEntrarJugadores,
         mesaLlena: mesaLlena,
-        proximoTurno: proximoTurno,
+        proximoTurno: proximoTurno
     }
 })();
 

@@ -6,10 +6,10 @@ var mesaJugador = (function(){
 
 	var bajarCarta = function(carta, posicion){
 
-	}
+	};
 
 	return {
-		bajarCarta: bajarCarta;
+		bajarCarta: bajarCarta
 		
 	}
 });
